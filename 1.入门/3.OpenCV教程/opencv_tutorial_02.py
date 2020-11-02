@@ -1,11 +1,9 @@
-import argparse
+import os
+os.environ['DISPLAY'] = 'windows:0'
+
 import cv2
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True, help="path to input image")
-args = vars(ap.parse_args())
-
-image = cv2.imread(args["image"])
+image = cv2.imread("tetris_blocks.png")
 cv2.imshow("Image", image)
 cv2.waitKey()
 

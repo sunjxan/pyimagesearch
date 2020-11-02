@@ -1,3 +1,6 @@
+import os
+os.environ['DISPLAY'] = 'windows:0'
+
 import cv2
 
 image = cv2.imread("jp.png")
