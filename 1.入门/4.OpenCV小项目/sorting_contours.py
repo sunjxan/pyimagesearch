@@ -1,21 +1,11 @@
-import os
-os.environ['DISPLAY'] = 'windows:0'
+import os, sys
+os.environ["DISPLAY"] = "windows:0"
+sys.path.append('../..')
 
 import cv2
 import numpy as np
 
-def sort_contours(cnts, method="left-to-right"):
-    reverse = False
-    i = 0
-
-    if method == "right-to-left" or method == "bottom-to-top":
-        reverse = True
-    if method == "top-to-bottom" or method == "bottom-to-top":
-        i = 1
-
-    boundingBoxes = [(cv2.boundingRect(cnt), cnt) for cnt in cnts]
-    boundingBoxes = sorted(boundingBoxes, key=lambda x: x[0][i], reverse=reverse)
-    return list(map(lambda x: x[1], boundingBoxes))
+from imutils.contours import sort_contours
 
 def draw_contours(image, cnt, index):
     M = cv2.moments(cnt)
@@ -34,14 +24,14 @@ for chan in cv2.split(image):
 
 cv2.imshow("Edged Map", accumEdged)
 
-cnts, _ = cv2.findContours(accumEdged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(accumEdged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:4]
-orig = image.copy()
+original = image.copy()
 
 for index, cnt in enumerate(cnts):
-    orig = draw_contours(orig, cnt, index)
+    original = draw_contours(original, cnt, index)
 
-cv2.imshow("Unsorted", orig)
+cv2.imshow("Unsorted", original)
 
 cnts = sort_contours(cnts, method="top-to-bottom")
 

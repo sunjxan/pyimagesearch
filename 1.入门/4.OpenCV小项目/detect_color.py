@@ -1,5 +1,6 @@
-import os
-os.environ['DISPLAY'] = 'windows:0'
+import os, sys
+os.environ["DISPLAY"] = "windows:0"
+sys.path.append('../..')
 
 import cv2
 import numpy as np
@@ -19,3 +20,4 @@ for lower, upper in boundaries:
     output = cv2.bitwise_and(image, image, mask=mask)
     cv2.imshow("images", np.hstack([image, output]))
     cv2.waitKey(500)
+cv2.destroyAllWindows()

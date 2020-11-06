@@ -1,5 +1,6 @@
-import os
-os.environ['DISPLAY'] = 'windows:0'
+import os, sys
+os.environ["DISPLAY"] = "windows:0"
+sys.path.append('../..')
 
 import cv2
 import numpy as np
@@ -8,11 +9,11 @@ image = cv2.imread("hand_01.png")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 gray = cv2.GaussianBlur(gray, (5, 5), 0)
 
-_, thresh = cv2.threshold(gray, 45, 255, cv2.THRESH_BINARY)
+ret, thresh = cv2.threshold(gray, 45, 255, cv2.THRESH_BINARY)
 thresh = cv2.erode(thresh, None, iterations=2)
 thresh = cv2.dilate(thresh, None, iterations=2)
 
-cnts, _ = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 maxContour = max(cnts, key=cv2.contourArea)
 
 left, top = maxContour.argmin(axis=0)[0]
@@ -31,3 +32,4 @@ cv2.circle(image, extBottom, 8, (255, 255, 0), -1)
 
 cv2.imshow("Image", image)
 cv2.waitKey()
+cv2.destroyAllWindows()

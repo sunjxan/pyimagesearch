@@ -1,5 +1,6 @@
-import os
-os.environ['DISPLAY'] = 'windows:0'
+import os, sys
+os.environ["DISPLAY"] = "windows:0"
+sys.path.append('../..')
 
 import cv2
 import numpy as np
@@ -21,6 +22,7 @@ def color_transfer(sourcePath, targetPath):
     cv2.imshow("Target", target)
     cv2.imshow("Result", result)
     cv2.waitKey()
+    cv2.destroyAllWindows()
     return result
 
 color_transfer("ocean_sunset.jpg", "ocean_day.jpg")

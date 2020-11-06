@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 class ShapeDetector:
     def detect(self, cnt):

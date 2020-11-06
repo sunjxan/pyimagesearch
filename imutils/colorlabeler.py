@@ -4,6 +4,12 @@ import math
 
 class ColorLabeler:
     def label(self, image, cnt):
+        # 红 色相中心0（180）
+        # 黄 色相中心30
+        # 绿 色相中心60
+        # 青 色相中心90
+        # 蓝 色相中心120
+        # 品红 色相中心 150
         colors = ["red", "yellow", "green", "cyan", "blue", "magenta"]
 
         mask = np.zeros(image.shape[:2], dtype=np.uint8)
