@@ -13,13 +13,13 @@ def resize(image, **kwargs):
     return cv2.resize(image, (round(w * ratio), round(h * ratio)))
 
 def rotate(image, angle, scale=1.0):
-    h, w, d = image.shape
+    h, w = image.shape[:2]
     center = round(w / 2), round(h / 2)
     M = cv2.getRotationMatrix2D(center, angle, scale)
     return cv2.warpAffine(image, M, (w, h))
 
 def rotate_bound(image, angle, scale=1.0):
-    h, w, d = image.shape
+    h, w = image.shape[:2]
     M = cv2.getRotationMatrix2D((0, 0), angle, scale)
     pts = np.array([(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)])
     pts = np.matmul(M[:, :2], pts.T).T
