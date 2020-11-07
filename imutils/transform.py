@@ -23,11 +23,11 @@ def four_point_transform(image, pts):
 
     widthA = np.sqrt((tr[0] - tl[0]) ** 2 + (tr[1] - tl[1]) ** 2)
     widthB = np.sqrt((br[0] - bl[0]) ** 2 + (br[1] - bl[1]) ** 2)
-    maxWidth = np.round(max(widthA, widthB)).astype(np.int32)
+    maxWidth = round(max(widthA, widthB).item())
 
     heightA = np.sqrt((bl[0] - tl[0]) ** 2 + (bl[1] - tl[1]) ** 2)
     heightB = np.sqrt((br[0] - tr[0]) ** 2 + (br[1] - tr[1]) ** 2)
-    maxHeight = np.round(max(heightA, heightB)).astype(np.int32)
+    maxHeight = round(max(heightA, heightB).item())
 
     dst = np.array([
         (0, 0),

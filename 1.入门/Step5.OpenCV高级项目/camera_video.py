@@ -1,6 +1,6 @@
 import os, sys
 os.environ["DISPLAY"] = "windows:0"
-sys.path.append('../..')
+sys.path.append("../..")
 
 import numpy as np
 import cv2
@@ -13,8 +13,8 @@ if cap.open(0):
         # 是否获得帧
         if not ret:
             break
-        cv2.imshow('Frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.imshow("Frame", frame)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
             break
     cap.release()
     cv2.destroyAllWindows()

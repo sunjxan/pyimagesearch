@@ -82,7 +82,7 @@ for start in range(0, count, 5):
             maxV = value
             maxI = index
     cv2.drawContours(output, rowCnts, maxI, (0, 0, 255), 2)
-    print("Row {}: {}".format(round(start / 5), chr(ord('A') + maxI)))
+    print("Row {}: {}".format(round(start / 5), chr(ord("A") + maxI)))
 
 cv2.imshow("Exam", output)
 cv2.waitKey()

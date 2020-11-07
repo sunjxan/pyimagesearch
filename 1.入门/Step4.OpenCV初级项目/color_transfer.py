@@ -1,6 +1,6 @@
 import os, sys
 os.environ["DISPLAY"] = "windows:0"
-sys.path.append('../..')
+sys.path.append("../..")
 
 import numpy as np
 import cv2
@@ -29,10 +29,10 @@ color_transfer("ocean_sunset.jpg", "ocean_day.jpg")
 
 color_transfer("ocean_day.jpg", "ocean_sunset.jpg")
 
-color_transfer('autumn.jpg', 'fallingwater.jpg')
+color_transfer("autumn.jpg", "fallingwater.jpg")
 
-color_transfer('fallingwater.jpg', 'autumn.jpg')
+color_transfer("fallingwater.jpg", "autumn.jpg")
 
-color_transfer('woods.jpg', 'storm.jpg')
+color_transfer("woods.jpg", "storm.jpg")
 
-color_transfer('storm.jpg', 'woods.jpg')
+color_transfer("storm.jpg", "woods.jpg")
