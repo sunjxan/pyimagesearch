@@ -5,20 +5,27 @@ sys.path.append("../..")
 import numpy as np
 import cv2
 
-import imutils
 from imutils.Stitcher import Stitcher
 
-imageA = cv2.imread("imageA.png")
-imageB = cv2.imread("imageB.png")
-imageA = imutils.resize(imageA, width=400)
-imageB = imutils.resize(imageB, width=400)
+print("[INFO] loading images...")
+images = []
+index = 0
+while True:
+    image = cv2.imread("image-stitch-{}.jpg".format(index))
+    if image is None:
+        break
+    images.append(image)
+    index += 1
 
+print("[INFO] stitching images...")
+# 创建拼接器
 stitcher = Stitcher()
-result, vis = stitcher.stitch([imageA, imageB], showMatches=True)
+stitched = stitcher.stitch(images, showMatches=True)
 
-cv2.imshow("Image A ({} x {})".format(imageA.shape[1], imageA.shape[0]), imageA)
-cv2.imshow("Image B ({} x {})".format(imageB.shape[1], imageB.shape[0]), imageB)
-cv2.imshow("Keypoint Matches ({} x {})".format(vis.shape[1], vis.shape[0]), vis)
-cv2.imshow("Result ({} x {})".format(result.shape[1], result.shape[0]), result)
-cv2.waitKey()
-cv2.destroyAllWindows()
+if stitched is not None:
+    stitched = stitcher.removeBlackBorder(stitched, showAnimate=True, winname="Stitched")
+    cv2.imshow("Stitched", stitched)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
+else:
+    print("[INFO] image stitching failed")
