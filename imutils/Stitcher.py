@@ -47,6 +47,7 @@ class Stitcher:
         if showMatches:
             vis = self.drawMatches(imageL, imageR, kpsL, kpsR, matches, status)
             cv2.imshow("Matches {}".format(index), vis)
+            cv2.waitKey(1)
         return result
 
     def detectAndDescribe(self, image):

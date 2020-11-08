@@ -7,7 +7,7 @@ import cv2
 
 from imutils.contours import sort_contours
 
-def draw_contours(image, cnt, index):
+def draw_contour(image, cnt, index):
     M = cv2.moments(cnt)
     cX = round(M["m10"] / M["m00"])
     cY = round(M["m01"] / M["m00"])
@@ -29,14 +29,15 @@ cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:4]
 original = image.copy()
 
 for index, cnt in enumerate(cnts):
-    original = draw_contours(original, cnt, index)
+    draw_contour(original, cnt, index)
 
 cv2.imshow("Unsorted", original)
 
 cnts = sort_contours(cnts, method="top-to-bottom")
 
 for index, cnt in enumerate(cnts):
-    draw_contours(image, cnt, index)
+    draw_contour(image, cnt, index)
 
 cv2.imshow("Sorted", image)
 cv2.waitKey()
+cv2.destroyAllWindows()
