@@ -11,12 +11,14 @@ from imutils.contours import sort_contours
 
 image = cv2.imread("digits.jpg")
 image = imutils.resize(image, height=500)
-cv2.imshow("Input", image)
-cv2.waitKey()
+cv2.imshow("Image", image)
+cv2.waitKey(1)
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 edged = cv2.Canny(blurred, 50, 200)
+cv2.imshow("Edged", edged)
+cv2.waitKey(1)
 
 cnts, hier = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
@@ -32,6 +34,8 @@ for cnt in cnts:
 # 透视变换
 warped = four_point_transform(gray, displayCnt.squeeze())
 output = four_point_transform(image, displayCnt.squeeze())
+cv2.imshow("Perspective", output)
+cv2.waitKey(1)
 
 # 使用大津算法确定的阈值进行阈值化，将显示的内容凸显出来
 ret, thresh = cv2.threshold(warped, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
@@ -53,7 +57,7 @@ digitCnts = sort_contours(digitCnts)
 img_digits = output.copy()
 cv2.drawContours(img_digits, digitCnts, -1, (0, 255, 0), 2)
 cv2.imshow("Digits", img_digits)
-cv2.waitKey()
+cv2.waitKey(1)
 
 # 查找表，短线排序：先上下排序，后左右排序
 DIGITS_LOOKUP = {
