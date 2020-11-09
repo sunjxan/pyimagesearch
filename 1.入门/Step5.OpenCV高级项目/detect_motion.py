@@ -58,4 +58,4 @@ def endFunc():
         cv2.destroyWindow("Mask")
         cv2.destroyWindow("Output")
 
-playVideo("vtest.avi", fps=10.0, winname="Original", replayCondition=replayCondition, captureFunc=captureFunc, startFunc=startFunc, endFunc=endFunc)
+playVideo("vtest.avi", fps=10.0, winname="Input", replayCondition=replayCondition, captureFunc=captureFunc, startFunc=startFunc, endFunc=endFunc)

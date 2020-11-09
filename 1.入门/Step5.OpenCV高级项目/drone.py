@@ -56,13 +56,11 @@ def find_targets(image):
     cv2.putText(output, status, (20, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2)
     return output
 
-output_winname = "Output"
-
 def captureFunc(frame):
     output = find_targets(frame)
-    cv2.imshow(output_winname, output)
+    cv2.imshow("Output", output)
 
 def endFunc():
-    cv2.destroyWindow(output_winname)
+    cv2.destroyWindow("Output")
 
-playVideo("drone.avi", fps=50.0, captureFunc=captureFunc, endFunc=endFunc)
+playVideo("drone.avi", fps=50.0, winname="Input", captureFunc=captureFunc, endFunc=endFunc)
