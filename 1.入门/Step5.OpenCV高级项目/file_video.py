@@ -6,8 +6,9 @@ import numpy as np
 import cv2
 
 cap = cv2.VideoCapture()
+cap.open("vtest.avi")
 
-if cap.open("vtest.avi"):
+if cap.isOpened():
     while True:
         ret, frame = cap.read()
         # 是否获得帧
@@ -15,7 +16,7 @@ if cap.open("vtest.avi"):
             break
         cv2.imshow("Frame", frame)
         # 等待时间为 1000 / fps
-        if cv2.waitKey(100) & 0xFF == ord("q"):
+        if cv2.waitKey(100) == ord("q"):
             break
     cap.release()
     cv2.destroyAllWindows()

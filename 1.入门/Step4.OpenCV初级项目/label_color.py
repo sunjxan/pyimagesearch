@@ -5,7 +5,7 @@ sys.path.append("../..")
 import numpy as np
 import cv2
 
-from imutils.colorlabeler import ColorLabeler
+from imutils.color_labeler import ColorLabeler
 
 image = cv2.imread("shapes_and_colors.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

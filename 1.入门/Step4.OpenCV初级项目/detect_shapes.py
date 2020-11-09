@@ -5,7 +5,7 @@ sys.path.append("../..")
 import numpy as np
 import cv2
 
-from imutils.shapedetector import ShapeDetector
+from imutils.shape_detector import ShapeDetector
 
 image = cv2.imread("shapes_and_colors.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

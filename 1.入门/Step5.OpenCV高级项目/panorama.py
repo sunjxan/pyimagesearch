@@ -11,7 +11,7 @@ print("[INFO] loading images...")
 images = []
 index = 0
 while True:
-    image = cv2.imread("image-stitch-{}.jpg".format(index))
+    image = cv2.imread("image_stitch_{}.jpg".format(index))
     if image is None:
         break
     images.append(image)

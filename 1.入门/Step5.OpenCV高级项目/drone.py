@@ -5,6 +5,8 @@ sys.path.append("../..")
 import cv2
 import numpy as np
 
+from imutils.video_capture import playVideo
+
 def find_targets(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -54,17 +56,13 @@ def find_targets(image):
     cv2.putText(output, status, (20, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2)
     return output
 
-cap = cv2.VideoCapture()
+output_winname = "Output"
 
-if cap.open("drone.avi"):
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        output = find_targets(frame)
-        cv2.imshow("Frame", frame)
-        cv2.imshow("Output", output)
-        if cv2.waitKey(50) & 0xFF == ord("q"):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+def captureFunc(frame):
+    output = find_targets(frame)
+    cv2.imshow(output_winname, output)
+
+def endFunc():
+    cv2.destroyWindow(output_winname)
+
+playVideo("drone.avi", fps=50.0, captureFunc=captureFunc, endFunc=endFunc)
