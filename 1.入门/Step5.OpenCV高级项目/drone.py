@@ -63,4 +63,4 @@ def captureFunc(frame):
 def endFunc():
     cv2.destroyWindow("Output")
 
-playVideo("drone.avi", fps=50.0, winname="Input", captureFunc=captureFunc, endFunc=endFunc)
+playVideo("drone.avi", fps=20.0, winname="Input", captureFunc=captureFunc, endFunc=endFunc)
