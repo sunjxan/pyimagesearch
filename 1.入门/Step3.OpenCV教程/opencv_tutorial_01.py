@@ -40,8 +40,12 @@ cv2.waitKey()
 cv2.destroyAllWindows()
 
 center = round(w / 2), round(h / 2)
+# 得到旋转矩阵
 M = cv2.getRotationMatrix2D(center, -45, 1.0)
-rotated = cv2.warpAffine(image, M, (w, h))
+# 仿射运算
+# (x, y) => (M[0, 0]x + M[0, 1]y + M[0, 2], M[1, 0]x + M[1, 1]y + M[1, 2])
+# 可以设置边框
+rotated = cv2.warpAffine(image, M, (w, h), borderMode=cv2.BORDER_WRAP)
 cv2.imshow("OpenCV Rotation", rotated)
 cv2.waitKey()
 cv2.destroyAllWindows()
