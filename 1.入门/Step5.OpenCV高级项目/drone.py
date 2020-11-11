@@ -56,7 +56,7 @@ def find_targets(image):
     cv2.putText(output, status, (20, 30), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 0, 255), 2)
     return output
 
-def captureFunc(frame):
+def captureFunc(frame, frameIndex):
     output = find_targets(frame)
     cv2.imshow("Output", output)
 

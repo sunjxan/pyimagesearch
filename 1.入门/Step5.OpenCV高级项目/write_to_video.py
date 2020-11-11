@@ -20,7 +20,7 @@ if pos == -1:
 else:
     output_winname = output_filename[pos + 1:]
 
-def captureFunc(frame):
+def captureFunc(frame, frameIndex):
     global writer
 
     h, w = frame.shape[:2]

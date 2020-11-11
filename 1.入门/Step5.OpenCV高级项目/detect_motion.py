@@ -11,8 +11,6 @@ from imutils.video_capture import playVideo
 modelInited = False
 # 初始化模型需要帧数
 initializationFrames = 120
-# 已经提供给模型的帧数
-frames = 0
 
 # 创建背景减法器模型
 fgbg = cv2.bgsegm.createBackgroundSubtractorGMG(initializationFrames=initializationFrames)
@@ -20,25 +18,22 @@ fgbg = cv2.bgsegm.createBackgroundSubtractorGMG(initializationFrames=initializat
 def startFunc():
     print("[Info] start init model...")
 
-def replayCondition(ret, frame):
+def replayCondition(frame, frameIndex):
     global modelInited
     global initializationFrames
-    global frames
 
     # 如果模型刚好初始化完毕，重播视频，模型开始工作
-    if not modelInited and frames == initializationFrames:
+    if not modelInited and frameIndex == initializationFrames:
         print("[Info] model initialization complete, replay video")
         modelInited = True
         return True
     return False
 
-def captureFunc(frame):
+def captureFunc(frame, frameIndex):
     global modelInited
-    global frames
 
     # 为背景减法器提供帧
     mask = fgbg.apply(frame)
-    frames += 1
 
     # 模型初始化结束
     if modelInited:
@@ -51,11 +46,9 @@ def captureFunc(frame):
 def endFunc():
     global modelInited
     global initializationFrames
-    global frames
 
-    # 如果模型已经初始化，且已经开始工作，关闭该两个窗口
-    if modelInited and frames > initializationFrames:
-        cv2.destroyWindow("Mask")
-        cv2.destroyWindow("Output")
+    # 如果模型已经初始化，关闭该两个窗口
+    if modelInited:
+        cv2.destroyAllWindows()
 
 playVideo("vtest.avi", fps=10.0, winname="Input", replayCondition=replayCondition, captureFunc=captureFunc, startFunc=startFunc, endFunc=endFunc)

@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import numpy as np
 import cv2
@@ -7,6 +8,7 @@ KEYCODE_PAUSE = ord(" ")
 KEYCODE_RESUME = ord(" ")
 KEYCODE_QUIT = ord("q")
 KEYCODE_REPLAY = ord("r")
+KEYCODE_SCREENSHOT = ord("s")
 
 def captureCamera(deviceIndex=0, fps=1.0, winname="", quitCondition=None, captureFunc=None, startFunc=None, endFunc=None):
     # 处理参数
@@ -28,6 +30,8 @@ def captureCamera(deviceIndex=0, fps=1.0, winname="", quitCondition=None, captur
         # 保存键盘输入
         keyCode = None
 
+        # 帧序号
+        frameIndex = 0
         while True:
             # 获取帧
             ret, frame = cap.read()
@@ -36,25 +40,38 @@ def captureCamera(deviceIndex=0, fps=1.0, winname="", quitCondition=None, captur
                 break
 
             # 判断是否退出
-            if quitCondition and quitCondition(frame):
+            if quitCondition and quitCondition(frame, frameIndex):
                 keyCode = KEYCODE_QUIT
                 break
 
             cv2.imshow(winname, frame)
             if captureFunc:
-                captureFunc(frame.copy())
+                captureFunc(frame.copy(), frameIndex)
             # 等待时间为 1000 / fps
             keyCode = cv2.waitKey(round(1000 / fps))
 
+            # 截图
+            if keyCode == KEYCODE_SCREENSHOT:
+                now = datetime.datetime.now()
+                cv2.imwrite('camera_{}_{}_{}.png'.format(deviceIndex, now.date(), str(now.time()).replace(':', '-')), frame)
+                
             # 暂停
             if keyCode == KEYCODE_PAUSE:
                 while True:
                     keyCode = cv2.waitKey()
                     if keyCode == KEYCODE_RESUME or keyCode == KEYCODE_QUIT:
                         break
+                    # 截图
+                    if keyCode == KEYCODE_SCREENSHOT:
+                        now = datetime.datetime.now()
+                        cv2.imwrite(
+                            'camera_{}_{}_{}.png'.format(deviceIndex, now.date(), str(now.time()).replace(':', '-')),
+                            frame)
             # 退出
             if keyCode == KEYCODE_QUIT:
                 break
+
+            frameIndex += 1
 
         # 释放捕捉器
         cap.release()
@@ -90,29 +107,36 @@ def playVideo(filename, fps=10.0, winname="", quitCondition=None, replayConditio
         # 保存键盘输入
         keyCode = None
 
+        # 帧序号
+        frameIndex = 0
         while True:
             # 获取帧
             ret, frame = cap.read()
-
-            # 判断是否重播
-            if replayCondition and replayCondition(ret, frame):
-                keyCode = KEYCODE_REPLAY
-                break
 
             # 是否获得帧
             if not ret:
                 break
 
             # 判断是否退出
-            if quitCondition and quitCondition(frame):
+            if quitCondition and quitCondition(frame, frameIndex):
                 keyCode = KEYCODE_QUIT
+                break
+
+            # 判断是否重播
+            if replayCondition and replayCondition(frame, frameIndex):
+                keyCode = KEYCODE_REPLAY
                 break
 
             cv2.imshow(winname, frame)
             if captureFunc:
-                captureFunc(frame.copy())
+                captureFunc(frame.copy(), frameIndex)
             # 等待时间为 1000 / fps
             keyCode = cv2.waitKey(round(1000 / fps))
+
+            # 截图
+            if keyCode == KEYCODE_SCREENSHOT:
+                now = datetime.datetime.now()
+                cv2.imwrite('{}_{}_{}_{}.png'.format(filename, frameIndex, now.date(), str(now.time()).replace(':', '-')), frame)
 
             # 暂停
             if keyCode == KEYCODE_PAUSE:
@@ -120,9 +144,16 @@ def playVideo(filename, fps=10.0, winname="", quitCondition=None, replayConditio
                     keyCode = cv2.waitKey()
                     if keyCode == KEYCODE_RESUME or keyCode == KEYCODE_QUIT or keyCode == KEYCODE_REPLAY:
                         break
+                    # 截图
+                    if keyCode == KEYCODE_SCREENSHOT:
+                        now = datetime.datetime.now()
+                        cv2.imwrite('{}_{}_{}_{}.png'.format(filename, frameIndex, now.date(),
+                                                             str(now.time()).replace(':', '-')), frame)
             # 退出或重播
             if keyCode == KEYCODE_QUIT or keyCode == KEYCODE_REPLAY:
                 break
+            
+            frameIndex += 1
 
         # 释放捕捉器
         cap.release()

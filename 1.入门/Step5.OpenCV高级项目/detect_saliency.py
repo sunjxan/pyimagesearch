@@ -18,7 +18,7 @@ def StaticSaliencySpectralResidual_startFunc():
     global saliency
     saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
 
-def StaticSaliencySpectralResidual_captureFunc(frame):
+def StaticSaliencySpectralResidual_captureFunc(frame, frameIndex):
     global saliency
     ret, saliencyMap = saliency.computeSaliency(frame)
     saliencyMap = (saliencyMap * 255).round().astype(np.uint8)
@@ -28,7 +28,7 @@ def StaticSaliencyFineGrained_startFunc():
     global saliency
     saliency = cv2.saliency.StaticSaliencyFineGrained_create()
 
-def StaticSaliencyFineGrained_captureFunc(frame):
+def StaticSaliencyFineGrained_captureFunc(frame, frameIndex):
     global saliency
     ret, saliencyMap = saliency.computeSaliency(frame)
     saliencyMap = (saliencyMap * 255).round().astype(np.uint8)
@@ -41,7 +41,7 @@ def MotionSaliencyBinWangApr2014_startFunc():
     global saliency
     saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
 
-def MotionSaliencyBinWangApr2014_replayCondition(ret, frame):
+def MotionSaliencyBinWangApr2014_replayCondition(frame, frameIndex):
     global motionSaliencyComplete
 
     # 如果模型刚好初始化完毕，重播视频，模型开始工作
@@ -53,7 +53,7 @@ def MotionSaliencyBinWangApr2014_replayCondition(ret, frame):
             return True
     return False
 
-def MotionSaliencyBinWangApr2014_captureFunc(frame):
+def MotionSaliencyBinWangApr2014_captureFunc(frame, frameIndex):
     global motionSaliencyInited
     global motionSaliencyComplete
     global saliency
