@@ -4,6 +4,8 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 from imutils.transform import four_point_transform
 from imutils.contours import sort_contours
@@ -15,12 +17,21 @@ blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 edged = cv2.Canny(blurred, 75, 200)
 
 print("STEP 1: Edge Detection")
-cv2.imshow("Image", image)
-cv2.imshow("Edged", edged)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 4, 1)
+plt.imshow(image[..., (2, 1, 0)])
+plt.title("Original")
+plt.subplot(1, 4, 2)
+plt.imshow(gray, cmap='gray')
+plt.title("Gray")
+plt.subplot(1, 4, 3)
+plt.imshow(blurred, cmap='gray')
+plt.title("Blurred")
+plt.subplot(1, 4, 4)
+plt.imshow(edged, cmap='gray')
+plt.title("Edged")
+plt.show()
 
-cnts, hier = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
 docCnt = None
 
@@ -34,21 +45,24 @@ for cnt in cnts:
 
 print("SETP 2: Find contours of paper")
 cv2.drawContours(image, [docCnt], -1, (0, 0, 255), 2)
-cv2.imshow("Outline", image)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 3, 1)
+plt.imshow(image[..., (2, 1, 0)])
+plt.title("Outline")
 
 print("STEP 3: Apply perspective transform")
 paper = four_point_transform(original, docCnt.squeeze())
 warped = four_point_transform(gray, docCnt.squeeze())
 ret, thresh = cv2.threshold(warped, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
-cv2.imshow("Paper", paper)
-cv2.imshow("Thresh", thresh)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 3, 2)
+plt.imshow(warped, cmap='gray')
+plt.title("Warped")
+plt.subplot(1, 3, 3)
+plt.imshow(thresh, cmap='gray')
+plt.title("Thresh")
+plt.show()
 
 print("STEP 4: Find contours of bubbles")
-cnts, hier = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 questionCnts = []
 
 for cnt in cnts:
@@ -60,9 +74,9 @@ for cnt in cnts:
 
 output = paper.copy()
 cv2.drawContours(output, questionCnts, -1, (0, 0, 255), 2)
-cv2.imshow("Questions", output)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 2, 1)
+plt.imshow(output[..., (2, 1, 0)])
+plt.title("Bubbles")
 
 print("STEP 5: Find checked bubbles")
 questionCnts = sort_contours(questionCnts, "top-to-bottom")
@@ -84,6 +98,7 @@ for start in range(0, count, 5):
     cv2.drawContours(output, rowCnts, maxI, (0, 0, 255), 2)
     print("Row {}: {}".format(round(start / 5), chr(ord("A") + maxI)))
 
-cv2.imshow("Exam", output)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 2, 2)
+plt.imshow(output[..., (2, 1, 0)])
+plt.title("Checked Bubbles")
+plt.show()

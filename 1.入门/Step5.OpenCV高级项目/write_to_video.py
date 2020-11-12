@@ -4,6 +4,8 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 from imutils.video_capture import playVideo
 
@@ -30,10 +32,9 @@ def captureFunc(frame, frameIndex):
         writer = cv2.VideoWriter(output_filename, None, fourcc, fps, (w * 2, h * 2), True)
 
     zeros = np.zeros((h, w), dtype=np.uint8)
-    B, G, R = cv2.split(frame)
-    blue = cv2.merge([B, zeros, zeros])
-    green = cv2.merge([zeros, G, zeros])
-    red = cv2.merge([zeros, zeros, R])
+    blue = cv2.merge([frame[..., 0], zeros, zeros])
+    green = cv2.merge([zeros, frame[..., 1], zeros])
+    red = cv2.merge([zeros, zeros, frame[..., 2]])
 
     output = np.zeros((h * 2, w * 2, 3), dtype=np.uint8)
     output[0:h, 0:w] = frame
@@ -52,5 +53,3 @@ def endFunc():
     cv2.destroyWindow(output_winname)
 
 playVideo("vtest.avi", fps=fps, captureFunc=captureFunc, endFunc=endFunc)
-
-

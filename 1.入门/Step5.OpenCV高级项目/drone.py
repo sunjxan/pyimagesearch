@@ -2,8 +2,10 @@ import os, sys
 os.environ["DISPLAY"] = "windows:0"
 sys.path.append("../..")
 
-import cv2
 import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 from imutils.video_capture import playVideo
 
@@ -12,7 +14,7 @@ def find_targets(image):
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     edged = cv2.Canny(blurred, 50, 150)
 
-    cnts, hier = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts, hier = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     output = image.copy()
     found = 0
     for cnt in cnts:

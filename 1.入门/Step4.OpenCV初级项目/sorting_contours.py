@@ -4,6 +4,8 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 from imutils.contours import sort_contours
 
@@ -22,22 +24,27 @@ for chan in cv2.split(image):
     edged = cv2.Canny(chan, 50, 200)
     accumEdged = cv2.bitwise_or(accumEdged, edged)
 
-cv2.imshow("Edged Map", accumEdged)
+plt.subplot(1, 3, 1)
+plt.imshow(accumEdged, cmap='gray')
+plt.title("Edged Map")
 
-cnts, hier = cv2.findContours(accumEdged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(accumEdged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:4]
 original = image.copy()
 
 for index, cnt in enumerate(cnts):
     draw_contour(original, cnt, index)
 
-cv2.imshow("Unsorted", original)
+plt.subplot(1, 3, 2)
+plt.imshow(original[..., (2, 1, 0)])
+plt.title("Unsorted")
 
 cnts = sort_contours(cnts, method="top-to-bottom")
 
 for index, cnt in enumerate(cnts):
     draw_contour(image, cnt, index)
 
-cv2.imshow("Sorted", image)
-cv2.waitKey()
-cv2.destroyAllWindows()
+plt.subplot(1, 3, 3)
+plt.imshow(image[..., (2, 1, 0)])
+plt.title("Sorted")
+plt.show()

@@ -4,6 +4,8 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 image = cv2.imread("hand_01.png")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -13,7 +15,7 @@ ret, thresh = cv2.threshold(gray, 45, 255, cv2.THRESH_BINARY)
 thresh = cv2.erode(thresh, None, iterations=2)
 thresh = cv2.dilate(thresh, None, iterations=2)
 
-cnts, hier = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 maxContour = max(cnts, key=cv2.contourArea)
 
 left, top = maxContour.argmin(axis=0)[0]

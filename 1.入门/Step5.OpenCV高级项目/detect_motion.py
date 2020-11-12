@@ -4,6 +4,8 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 from imutils.video_capture import playVideo
 

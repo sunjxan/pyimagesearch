@@ -12,7 +12,7 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 gray = cv2.GaussianBlur(gray, (3, 3), 0)
 edged = cv2.Canny(gray, 20, 100)
 
-cnts, hier = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 if len(cnts):
     maxContour = max(cnts, key=cv2.contourArea)
     mask = np.zeros(gray.shape, dtype=np.uint8)

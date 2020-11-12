@@ -4,13 +4,15 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 image = cv2.imread("shapes_and_colors.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 ret, thresh = cv2.threshold(blurred, 70, 255, cv2.THRESH_BINARY)
 
-cnts, hier = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 for index, cnt in enumerate(cnts):
     M = cv2.moments(cnt)
     cX = round(M["m10"] / M["m00"])

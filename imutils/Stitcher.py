@@ -105,9 +105,9 @@ class Stitcher:
         for ((queryIdx, trainIdx), s) in zip(matches, status):
             # 仅在关键点成功后处理匹配
             if s == 1:
-                ptA = round(kpsL[queryIdx, 0].item()), round(kpsL[queryIdx, 1].item())
-                ptB = round(kpsR[trainIdx, 0].item()) + wL, round(kpsR[trainIdx, 1].item())
-                cv2.line(vis, ptA, ptB, (0, 255, 0), 1)
+                ptL = round(kpsL[queryIdx, 0].item()), round(kpsL[queryIdx, 1].item())
+                ptR = round(kpsR[trainIdx, 0].item()) + wL, round(kpsR[trainIdx, 1].item())
+                cv2.line(vis, ptL, ptR, (0, 255, 0), 1)
         return vis
 
     def removeBlackBorder(self, image, showAnimate=False, winname=None):

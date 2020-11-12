@@ -4,13 +4,15 @@ sys.path.append("../..")
 
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
+plt.switch_backend('GTK3Agg')
 
 image = cv2.imread("shapes.png")
 lowerb = np.array([0] * 3)
 upperb = np.array([15] * 3)
 mask = cv2.inRange(image, lowerb, upperb)
 
-cnts, hier = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts, hier = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 print("I found {} black shapes".format(len(cnts)))
 cv2.imshow("Mask", mask)
 cv2.waitKey()
