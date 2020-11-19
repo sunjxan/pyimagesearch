@@ -10,10 +10,10 @@ KEYCODE_QUIT = ord("q")
 KEYCODE_REPLAY = ord("r")
 KEYCODE_SCREENSHOT = ord("s")
 
-def captureCamera(deviceIndex=0, fps=1.0, winname="", quitCondition=None, captureFunc=None, startFunc=None, endFunc=None):
+def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, captureFunc=None, startFunc=None, endFunc=None):
     # 处理参数
     if fps <= 0:
-        fps = 1.0
+        fps = 1000.0
     if not winname:
         winname = "Camera {}".format(deviceIndex)
 
