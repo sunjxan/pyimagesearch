@@ -53,7 +53,7 @@ class Stitcher:
     def detectAndDescribe(self, image):
         # 检测关键点并提取特征向量
 
-        descriptor = cv2.xfeatures2d.SIFT_create()
+        descriptor = cv2.SIFT_create()
         kps, features = descriptor.detectAndCompute(image, None)
 
         # 从关键点对象中获取坐标

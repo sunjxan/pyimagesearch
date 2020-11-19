@@ -28,11 +28,11 @@ def detect_barcode(image):
     gradient = np.abs(cv2.subtract(gradX, gradY))
 
     # 取整到[0, 255]，使具有高水平梯度绝对值的图像区域亮度高
-    gradX = gradX.round().clip(0, 255).astype(np.uint8)
+    gradX = cv2.convertScaleAbs(gradX)
     # 取整到[0, 255]，使具有高竖直梯度绝对值的图像区域亮度高
-    gradY = gradY.round().clip(0, 255).astype(np.uint8)
+    gradY = cv2.convertScaleAbs(gradY)
     # 取整到[0, 255]，使具有水平梯度绝对值和竖直梯度绝对值相差大的图像区域亮度高
-    gradient = gradient.round().clip(0, 255).astype(np.uint8)
+    gradient = cv2.convertScaleAbs(gradient)
 
     plt.subplot(1, 3, 1)
     plt.imshow(gradX, cmap='gray')
