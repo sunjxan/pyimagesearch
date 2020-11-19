@@ -21,7 +21,6 @@ def captureFunc(frame, frameIndex):
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, None, iterations=2)
 
     cv2.imshow('', mask)
-    cv2.waitKey()
 
 def endFunc():
     cv2.destroyAllWindows()

@@ -27,7 +27,7 @@ def captureFunc(frame, frameIndex):
 
     if not writer:
         # 输出视频路径，编解码器，码率，分辨率
-        writer = cv2.VideoWriter(output_filename, None, fourcc, fps, (w * 2, h * 2), True)
+        writer = cv2.VideoWriter(output_filename, fourcc, fps, (w * 2, h * 2), True)
 
     zeros = np.zeros((h, w), dtype=np.uint8)
     blue = cv2.merge([frame[..., 0], zeros, zeros])
