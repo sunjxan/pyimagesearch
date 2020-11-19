@@ -12,7 +12,7 @@ KEYCODE_SCREENSHOT = ord("s")
 
 def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, captureFunc=None, startFunc=None, endFunc=None):
     # 处理参数
-    if fps <= 0:
+    if fps < 1e-5 or fps > 1e3:
         fps = 1000.0
     if not winname:
         winname = "Camera {}".format(deviceIndex)
@@ -85,7 +85,7 @@ def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, cap
 
 def playVideo(filename, fps=10.0, winname="", quitCondition=None, replayCondition=None, captureFunc=None, startFunc=None, endFunc=None):
     # 处理参数
-    if fps <= 0:
+    if fps < 1e-5 or fps > 1e3:
         fps = 10.0
     if not winname:
         pos = filename.rfind(os.sep)
