@@ -30,7 +30,9 @@ class CentroidTracker:
         # 如果数据为空，则对所有已注册对象，消失帧数加1，满足条件的注销
         updateCount = len(centroids)
         if updateCount == 0:
-            for objectID in self.disappeared:
+            # 将已注册对象字典转换为列表，因为迭代中操作字典，所以不要直接在字典上迭代
+            objectKeys = list(self.objects.keys())
+            for objectID in objectKeys:
                 self.disappeared[objectID] += 1
 
                 if self.disappeared[objectID] > self.maxDisappeared:
