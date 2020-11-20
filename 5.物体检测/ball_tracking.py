@@ -20,8 +20,20 @@ def captureFunc(frame, frameIndex):
     mask = cv2.inRange(hsv, greenLower, greenUpper)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, None, iterations=2)
 
-    output = cv2.bitwise_and(frame, frame, mask=mask)
-    cv2.imshow('', output)
+    cnts, hier = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if len(cnts) > 0:
+        maxContour = max(cnts, key=cv2.contourArea)
+        M = cv2.moments(maxContour)
+        cX = round(M["m10"] / M["m00"])
+        cY = round(M["m01"] / M["m00"])
+        x, y, r = cv2.minEnclosingCircle(maxContour)
+        print(type(x), type(y), type(r))
+
+        if r > 10:
+            cv2.circle(frame, (x, y), r, (0, 255, 255), 2)
+            cv2.circel(frame, (cX, cY), 5, (0, 0, 255), -1)
+
+    cv2.imshow('', frame)
 
 def endFunc():
     cv2.destroyAllWindows()
