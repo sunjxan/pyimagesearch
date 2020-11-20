@@ -11,13 +11,13 @@ import imutils
 from imutils.video_capture import playVideo
 from imutils.video_capture import captureCamera
 
-def captureFunc(frame, frameIndex):
-    greenLower = (15, 100, 60)
-    greenUpper = (35, 160, 120)
-    ptSize = 128
-    pts = deque(maxlen=ptSize)
+greenLower = (15, 100, 60)
+greenUpper = (35, 160, 120)
+ptSize = 128
+pts = deque(maxlen=ptSize)
 
-    frame = imutils.resize(frame, width=600)
+def captureFunc(frame, frameIndex):
+    # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (5, 5), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HLS)
 
@@ -37,15 +37,17 @@ def captureFunc(frame, frameIndex):
 
         if r > 10:
             cv2.circle(frame, (x, y), r, (0, 255, 255), 2)
-            cv2.circle(frame, (cX, cY), 5, (0, 0, 255), -1)
+            cv2.circle(frame, center, 5, (0, 0, 255), -1)
     pts.appendleft(center)
 
     count = len(pts)
     for i in range(1, count):
+        if i > 10:
+            break
         if pts[i - 1] is None or pts[i] is None:
             continue
 
-        thickness = round(math.sqrt(ptSize / (i + 1)) * 2.5)
+        thickness = 11 - i
         cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
     cv2.imshow('', frame)
