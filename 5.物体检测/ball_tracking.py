@@ -17,7 +17,6 @@ ptSize = 128
 pts = deque(maxlen=ptSize)
 
 def captureFunc(frame, frameIndex):
-    # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (5, 5), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HLS)
 
@@ -42,12 +41,12 @@ def captureFunc(frame, frameIndex):
 
     count = len(pts)
     for i in range(1, count):
-        if i > 10:
+        if i > 20:
             break
         if pts[i - 1] is None or pts[i] is None:
             continue
 
-        thickness = 11 - i
+        thickness = round(math.sqrt(ptSize / (i + 1)) * 2.5)
         cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
     cv2.imshow('', frame)
