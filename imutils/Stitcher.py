@@ -38,7 +38,7 @@ class Stitcher:
         # 获得拼接结果的外界矩形
         gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY)
-        cnts, hier = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cnts, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         maxContour = max(cnts, key=cv2.contourArea)
         x, y, w, h = cv2.boundingRect(maxContour)
         result = result[y:y+h, x:x+w]
