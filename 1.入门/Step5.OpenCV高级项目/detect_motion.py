@@ -42,15 +42,7 @@ def captureFunc(frame, frameIndex):
         # 形态学开运算
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, None, iterations=2)
         output = cv2.bitwise_and(frame, frame, mask=mask)
-        cv2.imshow("Mask", mask)
         cv2.imshow("Output", output)
+        return frame
 
-def endFunc():
-    global modelInited
-    global initializationFrames
-
-    # 如果模型已经初始化，关闭该两个窗口
-    if modelInited:
-        cv2.destroyAllWindows()
-
-playVideo("vtest.avi", fps=10.0, winname="Input", replayCondition=replayCondition, captureFunc=captureFunc, startFunc=startFunc, endFunc=endFunc)
+playVideo("vtest.avi", fps=10, replayCondition=replayCondition, captureFunc=captureFunc, startFunc=startFunc)

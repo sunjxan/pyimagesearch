@@ -13,13 +13,6 @@ fps = 10.0
 writer = None
 output_filename = "vtest_output.avi"
 
-# 输出窗口名
-pos = output_filename.rfind(os.sep)
-if pos == -1:
-    output_winname = output_filename
-else:
-    output_winname = output_filename[pos + 1:]
-
 def captureFunc(frame, frameIndex):
     global writer
 
@@ -40,14 +33,13 @@ def captureFunc(frame, frameIndex):
     output[h:h*2, w:w*2] = green
     output[h:h * 2, 0:w] = blue
 
-    cv2.imshow(output_winname, output)
     # 写入文件
     writer.write(output)
+    cv2.imshow("Output", output)
 
 def endFunc():
     global writer
     if writer:
         writer.release()
-    cv2.destroyWindow(output_winname)
 
-playVideo("vtest.avi", fps=fps, captureFunc=captureFunc, endFunc=endFunc)
+playVideo("vtest.avi", fps=fps, captureFunc=captureFunc, showOriginalFrame=True, endFunc=endFunc)
