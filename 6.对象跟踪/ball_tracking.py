@@ -55,9 +55,7 @@ def captureFunc(frame, frameIndex):
         cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
     cv2.imshow('Frame', frame)
+    return frame
 
-def endFunc():
-    cv2.destroyWindow('Frame')
-
-# playVideo("../1.入门/Step5.OpenCV高级项目/vtest.avi", captureFunc=captureFunc, endFunc=endFunc)
-captureCamera(0, captureFunc=captureFunc, endFunc=endFunc)
+# playVideo("../1.入门/Step5.OpenCV高级项目/vtest.avi", captureFunc=captureFunc)
+captureCamera(0, captureFunc=captureFunc)

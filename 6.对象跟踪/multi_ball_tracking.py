@@ -52,9 +52,7 @@ def captureFunc(frame, frameIndex):
             cv2.putText(frame, "ID {}".format(objectID), (centroid[0] - 10, centroid[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 0), 2)
 
     cv2.imshow('Frame', frame)
+    return frame
 
-def endFunc():
-    cv2.destroyWindow('Frame')
-
-# playVideo("../1.入门/Step5.OpenCV高级项目/vtest.avi", captureFunc=captureFunc, endFunc=endFunc)
-captureCamera(0, captureFunc=captureFunc, endFunc=endFunc)
+# playVideo("../1.入门/Step5.OpenCV高级项目/vtest.avi", captureFunc=captureFunc)
+captureCamera(0, captureFunc=captureFunc)
