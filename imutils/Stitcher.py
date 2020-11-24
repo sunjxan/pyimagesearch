@@ -140,7 +140,7 @@ class Stitcher:
             sub = cv2.subtract(boundingRect, thresh)
 
         # 得到新的矩形轮廓
-        cnts, hier = cv2.findContours(boundingRect.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cnts, hier = cv2.findContours(boundingRect, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         maxContour = max(cnts, key=cv2.contourArea)
         nX, nY, nW, nH = cv2.boundingRect(maxContour)
 

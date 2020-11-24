@@ -18,7 +18,7 @@ def captureFunc(frame, frameIndex):
             ret, box = tracker.update(frame)
             if ret:
                 x, y, w, h = [round(v) for v in box]
-                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.rectangle(frame, (x, y), (x + w - 1, y + h - 1), (0, 255, 0), 2)
     cv2.imshow('Frame', frame)
     return frame
 
@@ -30,5 +30,5 @@ def ROIFunc(frame, ROIs):
         tracker.init(frame, tuple(ROI))
         trackers.append(tracker)
 
-# playVideo("../1.入门/Step5.OpenCV高级项目/vtest.avi", captureFunc=captureFunc, ROIFunc=ROIFunc)
-captureCamera(0, captureFunc=captureFunc, ROIFunc=ROIFunc)
+playVideo("../1.入门/OpenCV高级项目/vtest.avi", captureFunc=captureFunc, ROIFunc=ROIFunc)
+# captureCamera(0, captureFunc=captureFunc, ROIFunc=ROIFunc)
