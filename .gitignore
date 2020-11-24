@@ -131,3 +131,4 @@ dmypy.json
 .pyre/
 
 .idea
+/3.面部应用/shape_predictor_68_face_landmarks.dat
