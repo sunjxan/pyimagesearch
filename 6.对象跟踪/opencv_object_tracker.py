@@ -9,16 +9,17 @@ import imutils
 from imutils.video_capture import playVideo
 from imutils.video_capture import captureCamera
 
-trackers = None
+trackers = []
 
 def captureFunc(frame, frameIndex):
     global trackers
-    if trackers is not None and len(trackers):
-        for tracker in trackers:
+    if len(trackers):
+        for index, tracker in enumerate(trackers):
             ret, box = tracker.update(frame)
             if ret:
                 x, y, w, h = [round(v) for v in box]
                 cv2.rectangle(frame, (x, y), (x + w - 1, y + h - 1), (0, 255, 0), 2)
+                cv2.putText(frame, "ID {}".format(index + 1), (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 0), 2)
     cv2.imshow('Frame', frame)
     return frame
 

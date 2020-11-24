@@ -12,8 +12,8 @@ from imutils.video_capture import playVideo
 from imutils.video_capture import captureCamera
 
 # 区域颜色范围
-greenLower = (15, 100, 60)
-greenUpper = (35, 160, 120)
+lower = (15, 100, 60)
+upper = (35, 160, 120)
 # 中心点队列
 ptSize = 30
 pts = deque(maxlen=ptSize)
@@ -22,7 +22,7 @@ def captureFunc(frame, frameIndex):
     blurred = cv2.GaussianBlur(frame, (5, 5), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HLS)
 
-    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    mask = cv2.inRange(hsv, lower, upper)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, None, iterations=2)
 
     cnts, hier = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
