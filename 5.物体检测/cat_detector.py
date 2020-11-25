@@ -7,7 +7,7 @@ import cv2
 from matplotlib import pyplot as plt
 plt.switch_backend('GTK3Agg')
 
-detector = cv2.CascadeClassifier("/home/sunjxan/opencv/data/haarcascades/haarcascade_frontalcatface.xml")
+detector = cv2.CascadeClassifier("haarcascade_frontalcatface.xml")
 
 def detect(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
