@@ -7,21 +7,20 @@ import cv2
 import math
 from collections import deque
 
-import imutils
 from imutils.video_capture import playVideo
 from imutils.video_capture import captureCamera
 from imutils.centroid_tracker import CentroidTracker
 
 # 区域颜色范围
-lower = (15, 100, 60)
-upper = (35, 160, 120)
+lower = (15, 0, 100)
+upper = (35, 155, 255)
 
 # 创建质心追踪器
 centroidTracker = CentroidTracker()
 
 def captureFunc(frame, frameIndex):
     blurred = cv2.GaussianBlur(frame, (5, 5), 0)
-    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HLS)
+    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     mask = cv2.inRange(hsv, lower, upper)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, None, iterations=2)
@@ -54,5 +53,4 @@ def captureFunc(frame, frameIndex):
     cv2.imshow('Frame', frame)
     return frame
 
-playVideo("../1.入门/OpenCV高级项目/vtest.avi", captureFunc=captureFunc)
-# captureCamera(0, captureFunc=captureFunc)
+captureCamera('http://192.168.0.101:4747/video', captureFunc=captureFunc)

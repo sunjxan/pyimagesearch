@@ -5,7 +5,6 @@ sys.path.append("..")
 import numpy as np
 import cv2
 
-import imutils
 from imutils.video_capture import playVideo
 from imutils.video_capture import captureCamera
 
@@ -32,4 +31,3 @@ def ROIFunc(frame, ROIs):
         trackers.append(tracker)
 
 playVideo("../1.入门/OpenCV高级项目/vtest.avi", captureFunc=captureFunc, ROIFunc=ROIFunc)
-# captureCamera(0, captureFunc=captureFunc, ROIFunc=ROIFunc)

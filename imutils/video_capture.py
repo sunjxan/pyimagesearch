@@ -11,17 +11,17 @@ KEYCODE_REPLAY = ord("r")
 KEYCODE_SCREENSHOT = ord("p")
 KEYCODE_SELECT = ord("s")
 
-def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, captureFunc=None, showOriginalFrame=False, ROIFunc=None, startFunc=None, endFunc=None):
+def captureCamera(cameraAddress=0, fps=1000.0, winname="", quitCondition=None, captureFunc=None, showOriginalFrame=False, ROIFunc=None, startFunc=None, endFunc=None):
     # 处理参数
     if fps < 1e-5 or fps > 1e3:
         fps = 1000.0
     if not winname:
-        winname = "Camera {}".format(deviceIndex)
+        winname = "Camera {}".format(cameraAddress)
 
     # 创建视频捕捉器
     cap = cv2.VideoCapture()
     # 打开摄像头
-    cap.open(deviceIndex)
+    cap.open(cameraAddress)
 
     if cap.isOpened() and startFunc:
         startFunc()
@@ -62,7 +62,7 @@ def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, cap
             # 截图
             if keyCode == KEYCODE_SCREENSHOT and screenShot is not None:
                 now = datetime.datetime.now()
-                cv2.imwrite('camera_{}_{}_{}.png'.format(deviceIndex, now.date(), str(now.time()).replace(':', '-')), screenShot)
+                cv2.imwrite('camera_{}_{}_{}.png'.format(cameraAddress, now.date(), str(now.time()).replace(':', '-')), screenShot)
 
             # 选择ROI
             if keyCode == KEYCODE_SELECT and screenShot is not None and ROIFunc is not None:
@@ -81,7 +81,7 @@ def captureCamera(deviceIndex=0, fps=1000.0, winname="", quitCondition=None, cap
                     if keyCode == KEYCODE_SCREENSHOT and screenShot is not None:
                         now = datetime.datetime.now()
                         cv2.imwrite(
-                            'camera_{}_{}_{}.png'.format(deviceIndex, now.date(), str(now.time()).replace(':', '-')), screenShot)
+                            'camera_{}_{}_{}.png'.format(cameraAddress, now.date(), str(now.time()).replace(':', '-')), screenShot)
                     # 选择ROI
                     if keyCode == KEYCODE_SELECT and screenShot is not None and ROIFunc is not None:
                         ROIs = cv2.selectROIs('ROI selector', screenShot, showCrosshair=False)
