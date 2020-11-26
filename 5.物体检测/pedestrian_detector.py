@@ -5,7 +5,6 @@ sys.path.append("..")
 import numpy as np
 import cv2
 
-import imutils
 from imutils.video_capture import playVideo
 from imutils.object_detection import non_max_suppression
 
