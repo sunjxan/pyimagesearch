@@ -7,10 +7,7 @@ import cv2
 
 import face_recognition
 
-from imutils import face_utils
 from imutils.video_capture import captureCamera
-from imutils.video_capture import playVideo
-
 
 def captureFunc(frame, frameIndex):
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -25,5 +22,4 @@ def captureFunc(frame, frameIndex):
     cv2.imshow('Frame', frame)
     return frame
 
-playVideo('Megamind.avi', fps=24, captureFunc=captureFunc)
-# captureCamera(0, captureFunc=captureFunc)
+captureCamera('http://192.168.0.101:4747/video', rotateAngle=90, flipCode=1, captureFunc=captureFunc)

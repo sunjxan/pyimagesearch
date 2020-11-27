@@ -56,4 +56,4 @@ def captureFunc(frame, frameIndex):
     cv2.imshow('Frame', frame)
     return frame
 
-captureCamera('http://192.168.0.101:4747/video', captureFunc=captureFunc)
+captureCamera('http://192.168.0.101:4747/video', rotateAngle=90, flipCode=1, captureFunc=captureFunc)

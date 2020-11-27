@@ -4,6 +4,8 @@ import datetime
 import numpy as np
 import cv2
 
+import imutils
+
 KEYCODE_PAUSE = ord(" ")
 KEYCODE_RESUME = ord(" ")
 KEYCODE_QUIT = ord("q")
@@ -11,7 +13,7 @@ KEYCODE_REPLAY = ord("r")
 KEYCODE_SCREENSHOT = ord("p")
 KEYCODE_SELECT = ord("s")
 
-def captureCamera(cameraAddress=0, fps=1000.0, winname="", quitCondition=None, captureFunc=None, showOriginalFrame=False, ROIFunc=None, startFunc=None, endFunc=None):
+def captureCamera(cameraAddress=0, fps=1000.0, winname="", rotateAngle=None, flipCode=None, quitCondition=None, captureFunc=None, showOriginalFrame=False, ROIFunc=None, startFunc=None, endFunc=None):
     # 处理参数
     if fps < 1e-5 or fps > 1e3:
         fps = 1000.0
@@ -39,6 +41,11 @@ def captureCamera(cameraAddress=0, fps=1000.0, winname="", quitCondition=None, c
             # 是否获得帧
             if not ret:
                 break
+
+            if rotateAngle is not None:
+                frame = imutils.rotate(frame, rotateAngle)
+            if flipCode is not None:
+                frame = cv2.flip(frame, flipCode)
 
             # 判断是否退出
             if quitCondition and quitCondition(frame, frameIndex):
