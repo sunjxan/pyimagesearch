@@ -18,7 +18,7 @@ def rotate(image, angle, scale=1.0):
     M = cv2.getRotationMatrix2D(center, angle, scale)
     return cv2.warpAffine(image, M, (w, h))
 
-def rotate_bound(image, angle, scale=1.0):
+def rotate_bound(image, angle, scale=1.0, bgColor=(0, 0, 0)):
     h, w = image.shape[:2]
     M = cv2.getRotationMatrix2D((0, 0), angle, scale)
     pts = np.array([(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)])
@@ -28,9 +28,9 @@ def rotate_bound(image, angle, scale=1.0):
     M[:, 2] = [-minX, -minY]
     nW = math.ceil(maxX - minX + 1)
     nH = math.ceil(maxY - minY + 1)
-    return cv2.warpAffine(image, M, (nW, nH))
+    return cv2.warpAffine(image, M, (nW, nH), borderMode=cv2.BORDER_CONSTANT, borderValue=bgColor)
 
-def rotate_contour(image, contour, angle, scale=1.0):
+def rotate_contour(image, contour, angle, scale=1.0, bgColor=(0, 0, 0)):
     M = cv2.getRotationMatrix2D((0, 0), angle, scale)
     contour = contour.squeeze()
     contour = np.matmul(M[:, :2], contour.T).T
@@ -39,4 +39,4 @@ def rotate_contour(image, contour, angle, scale=1.0):
     M[:, 2] = [-minX, -minY]
     nW = math.ceil(maxX - minX + 1)
     nH = math.ceil(maxY - minY + 1)
-    return cv2.warpAffine(image, M, (nW, nH))
+    return cv2.warpAffine(image, M, (nW, nH), borderMode=cv2.BORDER_CONSTANT, borderValue=bgColor)
